@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { getGithubRepositories } from "../services/requests";
 
-import Repositories from "../components/Repositories";
+import RepositoriesTable from "../components/RepositoriesTable";
 import Pagination from "../components/Pagination";
 
 const DashboardStyled = styled.div`
@@ -40,9 +40,12 @@ const Dashboard = () => {
 
   return (
     <DashboardStyled className="dashboard-container">
-      <h1>REPOSITORIES</h1>
+      <h1>Github's public repositoies</h1>
       {/* what show */}
-      <Repositories repositories={currentRepositories} isLoading={isLoading} />
+      <RepositoriesTable
+        repositories={currentRepositories}
+        isLoading={isLoading}
+      />
       <Pagination
         repositoriesPerPage={repositoriesPerPage}
         totalRepositories={repositories.length}

@@ -19,3 +19,8 @@ export const getGithubRepositories = async () => {
     .catch((e) => console.log(e));
   return data;
 };
+
+export const makeGetRequest = async (url) => {
+  const data = await axios.get(url);
+  return data;
+};

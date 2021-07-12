@@ -36,7 +36,7 @@ const Pagination = ({
   }
 
   const movePageBy = (number) => {
-    const gotoPage = currentPage + number;
+    const gotoPage = Number(currentPage) + number;
     if (gotoPage <= 0 || gotoPage > pageNumbers.length) {
       alert("cannot go to that page");
       return;
