@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Dashboard from "./Dashboard";
+import Dashboard from "./dashboard";
 
 const HomeStyled = styled.div`
   margin: 5vw;
