@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
-// import DropDown from "../elements/DropDown";
 import Button from "../elements/Button";
 
 const PaginationStyled = styled.div`
@@ -11,7 +10,7 @@ const PaginationStyled = styled.div`
   select {
     background-color: transparent;
     margin: 0;
-    width: 250px;
+    width: 220px;
     font-size: 20px;
     line-height: inherit;
     border: 1px solid #aaa;
@@ -19,26 +18,10 @@ const PaginationStyled = styled.div`
   }
 `;
 
-const Pagination = ({
-  repositoriesPerPage,
-  totalRepositories,
-  paginate,
-  currentPage,
-}) => {
-  const pageNumbers = [];
-
-  for (
-    let i = 1;
-    i <= Math.ceil(totalRepositories / repositoriesPerPage);
-    i++
-  ) {
-    pageNumbers.push(i);
-  }
-
+const Pagination = ({ paginate, currentPage, pagesArray }) => {
   const movePageBy = (number) => {
     const gotoPage = Number(currentPage) + number;
-    if (gotoPage <= 0 || gotoPage > pageNumbers.length) {
-      alert("cannot go to that page");
+    if (gotoPage <= 0 || gotoPage > pagesArray.length) {
       return;
     }
 
@@ -47,7 +30,7 @@ const Pagination = ({
   };
 
   return (
-    <PaginationStyled>
+    <PaginationStyled data-testid="pagination">
       <Button text="<<" handleOnClick={() => movePageBy(-2)} />
       <Button text="<" handleOnClick={() => movePageBy(-1)} />
       <select
@@ -56,8 +39,12 @@ const Pagination = ({
         id="page"
         onChange={(e) => paginate(e.target.value)}
       >
-        {pageNumbers.map((number) => {
-          return <option value={number}>Current Page: {number}</option>;
+        {pagesArray.map((number, id) => {
+          return (
+            <option key={id} data-testid={`option-${id}`} value={number}>
+              Current page: {number}
+            </option>
+          );
         })}
       </select>
       <Button text=">" handleOnClick={() => movePageBy(1)} />

@@ -67,13 +67,13 @@ const LanguageStyled = styled.div`
 `;
 
 const handleLanguageData = (languageArray) => {
+  //in case the project gots too many langs to show
   const newArray = languageArray.slice(0, 3);
   newArray[3] = "and more";
   return newArray;
 };
 
 const RepositoryRow = ({ data }) => {
-  // const isLoading, setIsLoadi
   const [language, setLanguage] = useState([]);
   useEffect(() => {
     const fetchLanguage = async () => {
@@ -96,7 +96,7 @@ const RepositoryRow = ({ data }) => {
   };
 
   return (
-    <RepositoryRowStyled>
+    <RepositoryRowStyled data-testid="table-row">
       <div className="repository-name">
         <div className="project-name">{data.name}</div>
         <div className="description">{data.description}</div>
@@ -109,8 +109,10 @@ const RepositoryRow = ({ data }) => {
         <div className="language-wrapper">
           <div className="title">language:</div>
           <div className="languages">
-            {language.map((each) => {
-              return <LanguageStyled>{each}</LanguageStyled>;
+            {language.map((each, id) => {
+              return (
+                <LanguageStyled className={`lang-${id}`}>{each}</LanguageStyled>
+              );
             })}
           </div>
         </div>

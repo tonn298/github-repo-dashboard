@@ -5,17 +5,17 @@ import { getGithubRepositories } from "../services/requests";
 
 import RepositoriesTable from "../components/RepositoriesTable";
 import Pagination from "../components/Pagination";
+import { makeAnArrayOfNumberFromOneToThis, calcPages } from "../utils";
 
-const DashboardStyled = styled.div`
-  .loading {
-  }
-`;
+const DashboardStyled = styled.div``;
 
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [repositoriesPerPage, setRepositoriesPerPage] = useState(10);
+  const [repositoriesPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pagesArray, setPagesArray] = useState([]);
 
   const getRepositoriesData = async () => {
     const response = await getGithubRepositories();
@@ -27,6 +27,13 @@ const Dashboard = () => {
     getRepositoriesData();
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const total = calcPages(repositories.length, repositoriesPerPage);
+    const pages = makeAnArrayOfNumberFromOneToThis(total);
+    setTotalPages(total);
+    setPagesArray(pages);
+  }, [repositories]);
 
   // get current repositories
   const indexOfLastRepository = currentPage * repositoriesPerPage;
@@ -41,17 +48,14 @@ const Dashboard = () => {
   return (
     <DashboardStyled className="dashboard-container">
       <h1>Github's public repositoies</h1>
-      {/* what show */}
       <RepositoriesTable
         repositories={currentRepositories}
         isLoading={isLoading}
       />
       <Pagination
-        repositoriesPerPage={repositoriesPerPage}
-        totalRepositories={repositories.length}
         paginate={changePage}
         currentPage={currentPage}
-        isLoading={isLoading}
+        pagesArray={pagesArray}
       />
     </DashboardStyled>
   );

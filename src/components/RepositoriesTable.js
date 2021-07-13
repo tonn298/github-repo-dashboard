@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import RepositoryRow from "./RepositoryRow";
 
@@ -31,18 +31,24 @@ const LoadingStyled = styled.div``;
 
 const RepositoriesTable = ({ isLoading, repositories }) => {
   return (
-    <RepositoriesStyled>
-      <HeaderStyled className="table-header">
+    <RepositoriesStyled data-testid="repositories-table">
+      <HeaderStyled className="table-header" data-testid="table-header">
         <div className="name">Name</div>
         <div className="owner">Owner</div>
         <div className="last-update">Informations</div>
       </HeaderStyled>
       {isLoading ? (
-        <LoadingStyled>Loading</LoadingStyled>
+        <LoadingStyled data-testid={`loading`}>Loading</LoadingStyled>
       ) : (
         <TableContentStyled className="table-body">
           {repositories.map((each, idx) => {
-            return <RepositoryRow data={each} className={`item-${idx}`} />;
+            return (
+              <RepositoryRow
+                key={`key-${idx}`}
+                data={each}
+                className={`item-${idx}`}
+              />
+            );
           })}
         </TableContentStyled>
       )}

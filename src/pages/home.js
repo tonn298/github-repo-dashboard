@@ -9,7 +9,7 @@ const HomeStyled = styled.div`
 
 const Home = () => {
   return (
-    <HomeStyled>
+    <HomeStyled data-testid="home">
       <Dashboard />
     </HomeStyled>
   );
